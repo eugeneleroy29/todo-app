@@ -1,10 +1,24 @@
 export function TodoCard(props) {
-  const { todo, handleDeleteTodo, todoIndex, handleCompleteTodo } = props;
-  
+  const { todo, handleDeleteTodo, todoIndex, handleCompleteTodo, handleEditTodo, editIndex, setEditIndex, editValue, setEditValue } = props;
+
+  const isEditing = editIndex === todoIndex;  
 
   return (
     <div className="card todo-item">
-      <p>{todo.input}</p>
+      {isEditing ? (
+        <input
+          value={editValue}
+          onChange={(e) => setEditValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleEditTodo(todoIndex, editValue);
+            }
+          }}
+        />
+      ) : (
+        <p>{todo.input}</p>
+      )}
+
       <div className="todo-buttons">
         <button 
           onClick={() => {
@@ -13,6 +27,16 @@ export function TodoCard(props) {
           disabled={todo.complete}
         >
           <h6>Done</h6>
+        </button>
+        <button onClick={() => {
+          if (isEditing) {
+            handleEditTodo(todoIndex, editValue);
+          } else {
+            setEditIndex(todoIndex);
+            setEditValue(todo.input);
+          }
+        }}>
+          <h6>{isEditing ? 'Save' : 'Edit'}</h6>
         </button>
         <button onClick={() => {
           handleDeleteTodo(todoIndex)

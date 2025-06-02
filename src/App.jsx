@@ -18,6 +18,8 @@ function App() {
     { input: 'Hello! Add your first todo!', complete: true }
   ]);
   const [selectedTab, setSelectedTab] = useState('Open');
+  const [editIndex, setEditIndex] = useState(null);
+  const [editValue, setEditValue] = useState('');
 
   function handleAddTodo(newTodo) {
     const newTodoList = [...todos, { input: newTodo, complete: false }];
@@ -33,6 +35,15 @@ function App() {
     newTodoList[index] = completedTodo;
     setTodos(newTodoList);
     handleSaveData(newTodoList);
+  }
+
+  function handleEditTodo(index, newValue) {
+    const newTodoList = [...todos];
+    newTodoList[index].input = newValue;
+    setTodos(newTodoList);
+    handleSaveData(newTodoList);
+    setEditIndex(null);
+    setEditValue('');
   }
 
   function handleDeleteTodo(index) {
@@ -64,8 +75,13 @@ function App() {
       <TodoList 
         handleDeleteTodo={handleDeleteTodo} 
         handleCompleteTodo={handleCompleteTodo}
+        handleEditTodo={handleEditTodo}
         selectedTab={selectedTab} 
-        todos={todos} 
+        todos={todos}
+        editIndex={editIndex}
+        setEditIndex={setEditIndex}
+        editValue={editValue}
+        setEditValue={setEditValue}
       />
       <TodoInput handleAddTodo={handleAddTodo} />
     </>
