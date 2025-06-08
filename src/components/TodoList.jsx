@@ -11,7 +11,7 @@ export function TodoList(props) {
       todos.filter(val => !val.complete);
 
   return (
-    <>
+    <div className="todo-list">
       {filterTodoslist.map((todo, todoIndex) => {
         return (
           <TodoCard 
@@ -22,6 +22,6 @@ export function TodoList(props) {
           />
         )
       })}
-    </>
+    </div>
   )
 }
